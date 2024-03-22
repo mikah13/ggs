@@ -6,7 +6,6 @@ import (
 	"strings"
 )
 
-// WatchListOptions represents options for the watch list.
 type WatchListOptions struct {
 	ConfigPath string
 }

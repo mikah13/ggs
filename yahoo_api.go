@@ -7,8 +7,6 @@ import (
 	"net/http"
 )
 
-
-
 type ChartResponse struct {
 	Chart struct {
 		Result []struct {
