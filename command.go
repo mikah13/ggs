@@ -22,6 +22,10 @@ func executeCommand(command string, args []string) error {
 		getTickersPrice(tickers)
 		fmt.Println("search repos command", args[0])
 		return nil
+
+	case "get-all":
+		getWatchlistPrice()
+		return nil
 	case "list":
 		displayWatchlist()
 		return nil
@@ -36,6 +40,16 @@ func executeCommand(command string, args []string) error {
 func getTickersPrice(tickers string) {
 	tickersArray := strings.Split(tickers, ",")
 	for _, ticker := range tickersArray {
+		res, err := fetchPrice(ticker)
+		if err != nil {
+			fmt.Printf("Error fetching")
+		}
+	}
+}
+
+func getWatchlistPrice() {
+	var watchList = getWatchList()
+	for _, ticker := range watchList {
 		res, err := fetchPrice(ticker)
 		if err != nil {
 			fmt.Printf("Error fetching")
