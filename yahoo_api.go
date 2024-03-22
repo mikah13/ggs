@@ -7,12 +7,6 @@ import (
 	"net/http"
 )
 
-type StockPrice struct {
-	CurrentPrice            string
-	CurrentChange           string
-	CurrentChangePercentage string
-}
-
 type ChartResponse struct {
 	Chart struct {
 		Result []struct {

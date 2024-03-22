@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/jedib0t/go-pretty/v6/table"
 )
 
 var (
@@ -39,22 +40,28 @@ func executeCommand(command string, args []string) error {
 
 func getTickersPrice(tickers string) {
 	tickersArray := strings.Split(tickers, ",")
+	var stocks []ChartResponse
 	for _, ticker := range tickersArray {
 		res, err := fetchPrice(ticker)
 		if err != nil {
 			fmt.Printf("Error fetching")
 		}
+		stocks = append(stocks, res)
 	}
+	getTable(stocks)
 }
 
 func getWatchlistPrice() {
 	var watchList = getWatchList()
+	var stocks []ChartResponse
 	for _, ticker := range watchList {
 		res, err := fetchPrice(ticker)
 		if err != nil {
 			fmt.Printf("Error fetching")
 		}
+		stocks = append(stocks, res)
 	}
+	getTable(stocks)
 }
 
 func displayWatchlist() {
@@ -63,4 +70,35 @@ func displayWatchlist() {
 		fmt.Printf("Alas, there's been an error: %v", err)
 		os.Exit(1)
 	}
+}
+
+func getTable(stocks []ChartResponse) {
+	t := table.NewWriter()
+	t.SetOutputMirror(os.Stdout)
+	t.AppendHeader(table.Row{"Ticker", "Last Price", "Change", "Change %"})
+
+	for _, stock := range stocks {
+		row := getRow(stock)
+		t.AppendRow(row)
+	}
+
+	t.Render()
+}
+
+func getRow(stock ChartResponse) table.Row {
+	data := stock.Chart.Result[0].Meta
+	diff := data.RegularMarketPrice - data.PreviousClose
+	ticker := data.Symbol
+	lastPrice := data.RegularMarketPrice
+	change := appendPlus(diff)
+
+	changePercent := appendPlus(diff / data.PreviousClose * 100)
+	return table.Row{ticker, lastPrice, change, changePercent}
+}
+
+func appendPlus(num float64) string {
+	if num >= 0 {
+		return fmt.Sprintf("+%.2f", num)
+	}
+	return fmt.Sprintf("%.2f", num)
 }
