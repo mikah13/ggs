@@ -7,6 +7,8 @@ import (
 	"net/http"
 )
 
+
+
 type ChartResponse struct {
 	Chart struct {
 		Result []struct {
@@ -59,7 +61,7 @@ type TradingPeriod struct {
 func fetchPrice(ticker string) (ChartResponse, error) {
 	var response ChartResponse
 
-	const baseUrl = "https://query1.finance.yahoo.com/v8/finance/chart/%s?region=US&lang=en-US&includePrePost=true&interval=1m&useYfid=true&range=1d&corsDomain=finance.yahoo.com&.tsrc=finance"
+	const baseUrl = "https://query1.finance.yahoo.com/v8/finance/chart/%s?region=US&lang=en-US&includePrePost=false&interval=2m&useYfid=true&range=1d&corsDomain=finance.yahoo.com&.tsrc=finance"
 
 	fetchUrl := fmt.Sprintf(baseUrl, ticker)
 
