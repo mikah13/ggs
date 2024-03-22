@@ -21,6 +21,8 @@
 
 GGS (Go Stock Viewer) is a command-line tool written in Go for viewing stock prices and managing a watchlist of stocks. It allows you to quickly retrieve stock prices and display them in a tabular format. You can also manage your watchlist by adding or removing tickers as needed.
 
+<img src="./docs/example.png" alt="Example" width="400" height="225">
+
 ## Installation
 
 To use GGS, follow these steps:
