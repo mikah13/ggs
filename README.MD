@@ -27,16 +27,16 @@ To use GGS, follow these steps:
 
 1. **Clone the repository:**
   ```sh
-  git clone https://github.com/mikah13/ggs
+  git clone https://github.com/mikah13/ggs```
 
 
 2. **Navigate to the project directory:**
   ```sh
-  cd ggs
+  cd ggs```
 
 3. **Build the executable:**
   ```sh
-  go build .
+  go build .```
 
 ## Usage
 
@@ -49,9 +49,9 @@ Once you have built the executable, you can use the following command-line optio
 
 For example: You can use `get` for a single or multiple tickers search 
   ```sh
-  ./ggs get MSFT
-
-  ```sh
-  ./ggs get AAPL,META
-
+  ./ggs get MSFT```
   
+  ```sh
+  ./ggs get AAPL,META```
+
+
