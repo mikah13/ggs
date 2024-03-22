@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
 )
@@ -17,6 +18,8 @@ var (
 func executeCommand(command string, args []string) error {
 	switch command {
 	case "get":
+		tickers := args[0]
+		getTickersPrice(tickers)
 		fmt.Println("search repos command", args[0])
 		return nil
 	case "list":
@@ -30,8 +33,17 @@ func executeCommand(command string, args []string) error {
 	}
 }
 
-func displayWatchlist() {
+func getTickersPrice(tickers string) {
+	tickersArray := strings.Split(tickers, ",")
+	for _, ticker := range tickersArray {
+		res, err := fetchPrice(ticker)
+		if err != nil {
+			fmt.Printf("Error fetching")
+		}
+	}
+}
 
+func displayWatchlist() {
 	p := tea.NewProgram(initialModel())
 	if _, err := p.Run(); err != nil {
 		fmt.Printf("Alas, there's been an error: %v", err)
