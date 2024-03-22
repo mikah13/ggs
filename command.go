@@ -99,6 +99,8 @@ func getRow(stock ChartResponse) table.Row {
 	return table.Row{ticker, lastPrice, change, changePercent, previousClose, currency}
 }
 
+
+
 func appendPlus(num float64) string {
 	if num >= 0 {
 		return fmt.Sprintf("+%.2f", num)
