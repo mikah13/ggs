@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"time"
 )
 
 type Color string
@@ -22,7 +23,7 @@ func colorize(color Color, message string) {
 }
 
 func main() {
-
+	startTime := time.Now()
 	flag.Parse()
 
 	if len(flag.Args()) < 1 {
@@ -36,6 +37,8 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+
+	endTime := time.Now()
 
 	// startTime := time.Now()
 	// name := flag.String("name", "test", "the name to greet")
@@ -60,7 +63,7 @@ func main() {
 
 	// endTime := time.Now()
 
-	// fmt.Printf("Execution time: %s\n", endTime.Sub(startTime))
+	fmt.Printf("Execution time: %s\n", endTime.Sub(startTime))
 	// if flag.NArg() == 0 {
 	// 	fmt.Printf("Hello ,%s\n", *name)
 	// } else if flag.Arg(0) == "list" {

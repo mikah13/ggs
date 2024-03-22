@@ -1,4 +1,4 @@
-module go-get-stock
+module ggs
 
 go 1.21.6
 
