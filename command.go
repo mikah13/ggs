@@ -11,8 +11,9 @@ import (
 
 var (
 	usage = `Specify a command to execute:
-  - get: search stock price
-  - list: display your watchlist
+  - get: display stock price in a table
+  - get-all: display watchlist in a table
+  - list: editable list of all tickers in watchlist
   - add: add ticker to watchlist`
 )
 
@@ -75,13 +76,13 @@ func displayWatchlist() {
 func getTable(stocks []ChartResponse) {
 	t := table.NewWriter()
 	t.SetOutputMirror(os.Stdout)
-	t.AppendHeader(table.Row{"Ticker", "Last Price", "Change", "Change %"})
+	t.AppendHeader(table.Row{"Ticker", "Last Price", "Change", "Change %", "Previous Close", "Currency"})
 
 	for _, stock := range stocks {
 		row := getRow(stock)
 		t.AppendRow(row)
 	}
-
+	t.SetStyle(table.StyleColoredBlackOnBlueWhite)
 	t.Render()
 }
 
@@ -91,9 +92,11 @@ func getRow(stock ChartResponse) table.Row {
 	ticker := data.Symbol
 	lastPrice := data.RegularMarketPrice
 	change := appendPlus(diff)
-
 	changePercent := appendPlus(diff / data.PreviousClose * 100)
-	return table.Row{ticker, lastPrice, change, changePercent}
+	currency := data.Currency
+	previousClose := data.PreviousClose
+
+	return table.Row{ticker, lastPrice, change, changePercent, previousClose, currency}
 }
 
 func appendPlus(num float64) string {
