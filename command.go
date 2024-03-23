@@ -21,9 +21,7 @@ func executeCommand(command string, args []string) error {
 	case "get":
 		tickers := args[0]
 		getTickersPrice(tickers)
-		fmt.Println("search repos command", args[0])
 		return nil
-
 	case "get-all":
 		getWatchlistPrice()
 		return nil
@@ -31,7 +29,6 @@ func executeCommand(command string, args []string) error {
 		displayWatchlist()
 		return nil
 	case "add":
-		fmt.Println("search users command")
 		return nil
 	default:
 		return fmt.Errorf("invalid command: '%s'\n\n%s\n", command, usage)

@@ -4,11 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"time"
 )
 
 func main() {
-	startTime := time.Now()
 	flag.Parse()
 
 	if len(flag.Args()) < 1 {
@@ -22,9 +20,5 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-
-	endTime := time.Now()
-
-	fmt.Printf("Execution time: %s\n", endTime.Sub(startTime))
 
 }

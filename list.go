@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
 )
@@ -20,6 +21,7 @@ func initialModel() model {
 		// A map which indicates which choices are selected. We're using
 		// the  map like a mathematical set. The keys refer to the indexes
 		// of the `choices` slice, above.
+
 		selected: make(map[int]struct{}),
 	}
 }
@@ -40,6 +42,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		// These keys should exit the program.
 		case "ctrl+c", "q":
+			getRemainChoices(m.choices, m.selected)
 			return m, tea.Quit
 
 		// The "up" and "k" keys move the cursor up
@@ -99,4 +102,21 @@ func (m model) View() string {
 
 	// Send the UI for rendering
 	return s
+}
+
+func getRemainChoices(choices []string, selected map[int]struct{}) string {
+	var remain []string
+
+	// Iterate over all choices
+	for i, choice := range choices {
+		// Check if the choice is not selected
+		if _, ok := selected[i]; !ok {
+			// Add not selected choice to the slice
+			remain = append(remain, choice)
+		}
+	}
+
+	result := strings.Join(remain, ",")
+	return result
+
 }
