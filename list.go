@@ -32,10 +32,20 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		switch msg.String() {
 
+		case "s":
+			result := getRemainChoices(m.choices, m.selected)
+			res := updateWatchList(result)
+
+			if res {
+				fmt.Println("Watchlist has been updated!")
+			} else {
+				fmt.Println("Failed to update watchlist!")
+			}
+			return m, tea.Quit
+
 		// exit the program.
 		case "ctrl+c", "q":
-			result := getRemainChoices(m.choices, m.selected)
-			updateWatchList(result)
+
 			return m, tea.Quit
 
 		// The "up" and "k" keys move the cursor up
@@ -89,7 +99,7 @@ func (m model) View() string {
 	}
 
 	// The footer
-	s += "\nPress q to quit.\n"
+	s += "\nPress s to save.\nPress q to quit.\n"
 
 	return s
 }
