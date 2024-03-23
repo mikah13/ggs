@@ -5,7 +5,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/mikah13/ggs">
-    <img src="./docs/banner.png" alt="Banner" width="400" height="225">
+    <img src="./docs/banner.png" alt="Banner" width="400" height="190">
   </a>
 
   <h3 align="center">go-get-stock</h3>
