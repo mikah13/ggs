@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/jedib0t/go-pretty/v6/text"
@@ -11,7 +12,7 @@ import (
 func getTable(stocks []ChartResponse) {
 	t := table.NewWriter()
 	t.SetOutputMirror(os.Stdout)
-	t.AppendHeader(table.Row{"Ticker", "Last Price", "Change", "Change %", "Previous Close", "Currency"})
+	t.AppendHeader(table.Row{"Ticker", "Last Price", "Change", "Change %", "Prev. Close", "Currency"})
 
 	for _, stock := range stocks {
 		row := getRow(stock)
@@ -22,7 +23,13 @@ func getTable(stocks []ChartResponse) {
 		{
 			Name: "Change",
 			Transformer: text.Transformer(func(val interface{}) string {
-				return text.Colors{text.FgRed}.Sprint(val)
+				return getColoredChangeCell(val, "")
+			}),
+		},
+		{
+			Name: "Change %",
+			Transformer: text.Transformer(func(val interface{}) string {
+				return getColoredChangeCell(val, "%")
 			}),
 		},
 	})
@@ -42,6 +49,22 @@ func getRow(stock ChartResponse) table.Row {
 	previousClose := data.PreviousClose
 
 	return table.Row{ticker, lastPrice, change, changePercent, previousClose, currency}
+}
+
+func getColoredChangeCell(val interface{}, postfix string) string {
+	strVal, ok := val.(string)
+	if !ok {
+		return "0.00" + postfix
+	}
+
+	var color text.Color
+	if strings.Contains(strVal, "-") {
+		color = text.FgRed
+	} else if strings.Contains(strVal, "+") {
+		color = text.FgGreen
+	}
+
+	return text.Colors{color}.Sprint(strVal + postfix)
 }
 
 func appendPlus(num float64) string {
