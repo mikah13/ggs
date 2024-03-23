@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/jedib0t/go-pretty/v6/table"
+	"github.com/jedib0t/go-pretty/v6/text"
 )
 
 func getTable(stocks []ChartResponse) {
@@ -16,7 +17,17 @@ func getTable(stocks []ChartResponse) {
 		row := getRow(stock)
 		t.AppendRow(row)
 	}
-	t.SetStyle(table.StyleColoredBlackOnBlueWhite)
+
+	t.SetColumnConfigs([]table.ColumnConfig{
+		{
+			Name: "Change",
+			Transformer: text.Transformer(func(val interface{}) string {
+				return text.Colors{text.FgRed}.Sprint(val)
+			}),
+		},
+	})
+
+	t.SetStyle(table.StyleColoredCyanWhiteOnBlack)
 	t.Render()
 }
 
