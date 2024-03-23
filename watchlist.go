@@ -45,3 +45,31 @@ func getWatchList(options ...WatchListOption) []string {
 
 	return watchList
 }
+
+func updateWatchList(content string, options ...WatchListOption) bool {
+	opt := &WatchListOptions{
+		ConfigPath: "./ggs.config",
+	}
+
+	// Apply custom options if provided
+	for _, option := range options {
+		option(opt)
+	}
+
+	// Open the file in write mode, create if not exists
+	file, err := os.Create(opt.ConfigPath)
+	if err != nil {
+		// Handle error, e.g., log it
+		return false
+	}
+	defer file.Close()
+
+	// Write content to the file
+	_, err = fmt.Fprintf(file, "%s", content)
+	if err != nil {
+		// Handle error, e.g., log it
+		return false
+	}
+
+	return true
+}
