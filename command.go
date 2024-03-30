@@ -34,6 +34,7 @@ func executeCommand(command string, args []string) error {
 		for _, ticker := range strings.Split(tickers, ",") {
 			addTickerToWatchlist(ticker)
 		}
+		getWatchlistPrice()
 		return nil
 	default:
 		return fmt.Errorf("invalid command: '%s'\n\n%s\n", command, usage)
@@ -80,7 +81,7 @@ func addTickerToWatchlist(ticker string) bool {
 	var found = strings.Contains(strings.Join(watchList, ","), ticker)
 
 	if found {
-		fmt.Printf("%s is already in the watchlist", ticker)
+		fmt.Printf("%s is already in the watchlist\n", ticker)
 		return false
 	}
 
@@ -93,10 +94,10 @@ func addTickerToWatchlist(ticker string) bool {
 	var operation = updateWatchList(fileContent)
 
 	if !operation {
-		fmt.Printf("Something went wrong. %s has not been added to the watchlist !", ticker)
+		fmt.Printf("Something went wrong. %s has not been added to the watchlist !\n", ticker)
 		return false
 	}
 
-	fmt.Printf("%s has been added to the watchlist !", ticker)
+	fmt.Printf("%s has been added to the watchlist !\n", ticker)
 	return true
 }
