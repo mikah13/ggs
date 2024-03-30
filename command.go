@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"sort"
 	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
@@ -29,6 +30,10 @@ func executeCommand(command string, args []string) error {
 		displayWatchlist()
 		return nil
 	case "add":
+		tickers := args[0]
+		for _, ticker := range strings.Split(tickers, ",") {
+			addTickerToWatchlist(ticker)
+		}
 		return nil
 	default:
 		return fmt.Errorf("invalid command: '%s'\n\n%s\n", command, usage)
@@ -67,4 +72,31 @@ func displayWatchlist() {
 		fmt.Printf("Alas, there's been an error: %v", err)
 		os.Exit(1)
 	}
+}
+
+func addTickerToWatchlist(ticker string) bool {
+	var watchList = getWatchList()
+
+	var found = strings.Contains(strings.Join(watchList, ","), ticker)
+
+	if found {
+		fmt.Printf("%s is already in the watchlist", ticker)
+		return false
+	}
+
+	watchList = append(watchList, ticker)
+
+	sort.Strings(watchList)
+
+	var fileContent = strings.Join(watchList, ",")
+
+	var operation = updateWatchList(fileContent)
+
+	if !operation {
+		fmt.Printf("Something went wrong. %s has not been added to the watchlist !", ticker)
+		return false
+	}
+
+	fmt.Printf("%s has been added to the watchlist !", ticker)
+	return true
 }
