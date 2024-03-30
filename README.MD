@@ -61,4 +61,13 @@ For example: You can use `get` for a single or multiple tickers search
   ./ggs get AAPL,META
   ```
 
+You can do the same with `add` command:
+
+  ```sh
+  ./ggs add MSFT
+  ```
+  
+  ```sh
+  ./ggs add AAPL,META,TSLA
+  ```
 
